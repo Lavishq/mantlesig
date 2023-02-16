@@ -16,7 +16,7 @@ contract MultiSig {
     mapping(uint256 => Transaction) public transactions;
     mapping(uint256 => mapping(address => bool)) public confirmations;
 
-    constructor(address[] memory _owners, uint _required) {
+    constructor(address[] memory _owners, uint _required) payable {
         require(_required > 0);
         require(_owners.length > _required);
         required = _required;

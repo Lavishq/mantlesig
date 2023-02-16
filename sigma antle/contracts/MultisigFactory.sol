@@ -2,20 +2,22 @@
 pragma solidity 0.8.18;
 import "./Multisig.sol";
 
-contract MultiSigFactory {
+contract MultisigFactory {
     // starts with one but if there is not multisig deployed then it is zero
-    uint256 public s_contractIdCounter;
+    uint256 private s_contractIdCounter;
 
     mapping(uint256 => address) public multisigContract;
-
-    receive() external payable {}
 
     function createNewMultisig(
         address[] memory _owners,
         uint _required
-    ) external {
-        MultiSig msig = new MultiSig(_owners, _required);
+    ) external payable {
+        MultiSig msig = new MultiSig{value: msg.value}(_owners, _required);
         s_contractIdCounter += 1;
         multisigContract[s_contractIdCounter] = address(msig);
+    }
+
+    function getCounter() public view returns (uint256) {
+        return s_contractIdCounter;
     }
 }
