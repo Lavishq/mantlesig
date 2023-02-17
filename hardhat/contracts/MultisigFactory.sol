@@ -6,7 +6,7 @@ contract MultisigFactory {
     // starts with one but if there is not multisig deployed then it is zero
     uint256 private s_contractIdCounter;
 
-    mapping(uint256 => address) public multisigContract;
+    mapping(uint256 => address) public multisigContractAddress;
 
     function createNewMultisig(
         address[] memory _owners,
@@ -14,7 +14,7 @@ contract MultisigFactory {
     ) external payable {
         MultiSig msig = new MultiSig{value: msg.value}(_owners, _required);
         s_contractIdCounter += 1;
-        multisigContract[s_contractIdCounter] = address(msig);
+        multisigContractAddress[s_contractIdCounter] = address(msig);
     }
 
     function getCounter() public view returns (uint256) {
